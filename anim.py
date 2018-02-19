@@ -1,8 +1,19 @@
-"""Components for animating visualizations"""
+"""Components for making simple event-driven visualization animations"""
 
 import queue
 from threading import Thread
 import time
+
+
+class Pattern(object):
+    """A visualization pattern"""
+    def tick(self):
+        """Call this on a regular basis to update any animation state"""
+        pass
+
+    def on_event(self, event):
+        """Call this to add a new event to the visualization"""
+        pass
 
 
 class Source(object):
@@ -75,7 +86,7 @@ class Animator(object):
     def _process_queue(self):
         try:
             while True:
-                self._pattern.show_event(self._event_queue.get(block=False))
+                self._pattern.on_event(self._event_queue.get(block=False))
         except queue.Empty:
             pass
 
