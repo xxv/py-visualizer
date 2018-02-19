@@ -16,7 +16,7 @@ fetch real-time data. Sources have independent loops from your animation loops,
 so you can feel free to do operations here that take a long time and your
 animation will keep running smoothly.
 
-```
+```python
 import time
 
 class TickSource(Source):
@@ -36,7 +36,7 @@ This is your main animation loop. Here, you draw animations and handle incoming
 events. Events are delivered to you on the same thread as your animation pattern,
 so you don't need to worry about multi-threading issues.
 
-```
+```python
 class MyPattern(Pattern):
     def on_event(self, event):
 	print("Got event {}".format(event))
@@ -53,7 +53,7 @@ The glue that connects your Source to your Pattern.
 Putting it all together
 -----------------------
 
-```
+```python
 def main():
     anim = Animator(TickSource(), MyPattern())
     anim.loop_forever()
