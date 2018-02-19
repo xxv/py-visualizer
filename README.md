@@ -18,6 +18,7 @@ animation will keep running smoothly.
 
 ```python
 import time
+from anim import Source
 
 class TickSource(Source):
     # this method will be called repeatedly until the animation is shut down
@@ -37,9 +38,11 @@ events. Events are delivered to you on the same thread as your animation pattern
 so you don't need to worry about multi-threading issues.
 
 ```python
+from anim import Pattern
+
 class MyPattern(Pattern):
     def on_event(self, event):
-	print("Got event {}".format(event))
+        print("Got event {}".format(event))
 
     def tick(self):
         print('.', end='', flush=True)
@@ -54,6 +57,8 @@ Putting it all together
 -----------------------
 
 ```python
+from anim import Animator
+
 def main():
     anim = Animator(TickSource(), MyPattern())
     anim.loop_forever()
