@@ -15,7 +15,11 @@ class MQTTSource(MQTTBase, Source):
         print("Connected to MQTT server.")
 
     def on_message(self, client, userdata, message):
-        self.trigger(message.payload.decode('utf-8'))
+        event = {
+            'topic': message.topic,
+            'payload': message.payload
+            }
+        self.trigger(event)
 
     def loop_forever(self):
         MQTTBase.loop_forever(self)
