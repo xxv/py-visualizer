@@ -73,6 +73,7 @@ class Animator(object):
 
     _event_queue = queue.Queue()
     _keepon = True
+    _thread = None
     DELAY_MS = 8  # 120 ticks per minute
 
     def __init__(self, source, pattern):
@@ -93,12 +94,18 @@ class Animator(object):
     def stop(self):
         """Stop the animation"""
         self._keepon = False
+        print("Animation stopped. Stopping source...")
+        self._source.stop()
+        if self._thread:
+            self._thread.join()
+        print("Done.")
 
     def loop_forever(self):
         """Main animation loop
 
         Call this from your script. Waits 1ms between ticks."""
-        Thread(target=self._source.loop_forever).start()
+        self._thread = Thread(target=self._source.loop_forever)
+        self._thread.start()
         print("Animation started.")
         try:
             while self._keepon:
@@ -107,6 +114,3 @@ class Animator(object):
                 time.sleep(self.DELAY_MS/1000)
         except KeyboardInterrupt:
             self.stop()
-            print("Animation stopped. Stopping source...")
-            self._source.stop()
-            print("Done.")
