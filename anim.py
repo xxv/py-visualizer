@@ -71,14 +71,18 @@ class Animator(object):
     This queues events and runs the source loop on a background
     thread so the animation is smooth."""
 
+    DEFAULT_DELAY_MS = 8  # 120 ticks per minute
+
     _event_queue = queue.Queue()
     _keepon = True
     _thread = None
-    DELAY_MS = 8  # 120 ticks per minute
+    _delay_ms = DEFAULT_DELAY_MS
 
-    def __init__(self, source, pattern):
+    def __init__(self, source, pattern, delay_ms=None):
         self._source = source
         self._pattern = pattern
+        if delay_ms:
+            self._delay_ms = delay_ms
         source.set_listener(self._enqueue_event)
 
     def _enqueue_event(self, event):
@@ -111,6 +115,6 @@ class Animator(object):
             while self._keepon:
                 self._process_queue()
                 self._pattern.tick()
-                time.sleep(self.DELAY_MS/1000)
+                time.sleep(self._delay_ms/1000)
         except KeyboardInterrupt:
             self.stop()
