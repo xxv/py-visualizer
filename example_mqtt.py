@@ -1,5 +1,23 @@
 #!/usr/bin/env python
 
+"""Example of using this animation library with MQTT.
+
+This uses paho-mqtt. To install, do:
+
+    pipenv install paho-mqtt
+
+or
+
+    pip install paho-mqtt
+
+and then do:
+
+    cp mqtt_config.json.example mqtt_config.json
+
+and edit mqtt_config.json with your MQTT configuration.
+"""
+
+from __future__ import print_function
 import sys
 
 from mqtt_source import MQTTSource

@@ -20,7 +20,7 @@ animation will keep running smoothly.
 import time
 from anim import Source
 
-class TickSource(Source):
+class MySource(Source):
     # this method will be called repeatedly until the animation is shut down
     def loop(self):
 	# trigger an event once per second
@@ -35,17 +35,20 @@ Your animation/visualization pattern.
 
 This is your main animation loop. Here, you draw animations and handle incoming
 events. Events are delivered to you on the same thread as your animation pattern,
-so you don't need to worry about multi-threading issues.
+so you don't need to worry about multi-threading issues between on_event() and
+draw().
 
 ```python
+import sys
 from anim import Pattern
 
 class MyPattern(Pattern):
     def on_event(self, event):
         print("Got event {}".format(event))
 
-    def tick(self):
-        print('.', end='', flush=True)
+    def draw(self):
+        sys.stdout.write('.')
+        sys.stdout.flush()
 ```
 
 Animator
@@ -60,7 +63,7 @@ Putting it all together
 from anim import Animator
 
 def main():
-    anim = Animator(TickSource(), MyPattern())
+    anim = Animator(MySource(), MyPattern())
     anim.loop_forever()
 
 if __name__ == '__main__':

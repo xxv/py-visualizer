@@ -1,9 +1,15 @@
+"""An Source that triggers events from MQTT messages.
+
+See mqtt_config.json.example for a list of config file parameters.
+"""
+
+from __future__ import print_function
 from anim import Source
 from mqtt_base import MQTTBase
 
 
 class MQTTSource(MQTTBase, Source):
-    """Event source from an MQTT topic"""
+    """Event source from an MQTT topic."""
 
     def __init__(self, config_file, topic=None):
         MQTTBase.__init__(self, config_file=config_file)
